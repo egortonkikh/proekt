@@ -1,0 +1,21 @@
+{
+  "database": "project.db",
+  "logs": {
+    "directory": "logs",
+    "file_mask": "access*.log",
+    "format": "combined"
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 5000,
+    "secret_key": "change-me-in-production"
+  },
+  "cron": {
+    "enabled": true,
+    "interval_minutes": 60
+  },
+  "auth": {
+    "username": "admin",
+    "password": "admin123"
+  }
+}

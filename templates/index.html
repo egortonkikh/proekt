@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Статистика — Log Aggregator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Apache Log Aggregator</h1>
+    <div class="actions">
+      <form method="post" action="{{ url_for('import_logs') }}">
+        <button type="submit">Импортировать логи</button>
+      </form>
+      <a class="btn ghost" href="{{ url_for('logout') }}">Выйти</a>
+    </div>
+  </header>
+
+  {% if flash %}<p class="flash">{{ flash }}</p>{% endif %}
+
+  <main class="grid">
+    <section class="card">
+      <h2>Общее</h2>
+      <p class="big">{{ stats.total_entries }}</p>
+      <p class="muted">записей в базе</p>
+      {% if stats.last_job %}
+      <p class="muted small">Последний импорт #{{ stats.last_job.id }}: {{ stats.last_job.status }} — {{ stats.last_job.message }}</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Топ IP</h2>
+      <table>
+        <thead><tr><th>IP</th><th>Запросов</th></tr></thead>
+        <tbody>
+          {% for row in stats.top_ips %}
+          <tr><td>{{ row.ip_address }}</td><td>{{ row.hits }}</td></tr>
+          {% else %}
+          <tr><td colspan="2">Нет данных</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Топ URL</h2>
+      <table>
+        <thead><tr><th>URL</th><th>Запросов</th></tr></thead>
+        <tbody>
+          {% for row in stats.top_urls %}
+          <tr><td class="url">{{ row.url }}</td><td>{{ row.hits }}</td></tr>
+          {% else %}
+          <tr><td colspan="2">Нет данных</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Коды ответа</h2>
+      <table>
+        <thead><tr><th>Status</th><th>Кол-во</th></tr></thead>
+        <tbody>
+          {% for row in stats.by_status %}
+          <tr><td>{{ row.status_code }}</td><td>{{ row.hits }}</td></tr>
+          {% else %}
+          <tr><td colspan="2">Нет данных</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

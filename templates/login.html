@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход — Log Aggregator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body class="auth-page">
+  <form class="card" method="post">
+    <h1>Apache Log Aggregator</h1>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    <label>Логин<input name="username" required autocomplete="username" /></label>
+    <label>Пароль<input name="password" type="password" required autocomplete="current-password" /></label>
+    <button type="submit">Войти</button>
+  </form>
+</body>
+</html>
